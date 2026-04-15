@@ -8,7 +8,7 @@ Turn meeting **text or audio** into:
 
 …and automatically log everything to a Google Sheet.
 
-![Flowchart](flowchart.png)
+![Flowchart](flowchart_update.png)
 
 ## What you get (in plain words)
 
