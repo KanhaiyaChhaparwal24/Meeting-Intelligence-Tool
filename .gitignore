@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Secrets
+.env
+credentials.json
+# Outputs
+meeting_log.xlsx
+emails/
+todo.txt
+trial.txt
+
