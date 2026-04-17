@@ -6,3 +6,4 @@ openai-whisper>=20240930
 python-dotenv>=1.0.1
 gspread>=6.1.2
 oauth2client>=4.1.3
+streamlit>=1.37.0

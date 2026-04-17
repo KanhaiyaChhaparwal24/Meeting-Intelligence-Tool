@@ -10,7 +10,7 @@ Turn meeting **text or audio** into:
 
 ![Flowchart](flowchart_update.png)
 
-## What you get (in plain words)
+## What you get
 
 - You paste a meeting transcript (or give an audio file).
 - The tool extracts the useful parts.
@@ -96,6 +96,16 @@ winget install --id Gyan.FFmpeg
 ```
 
 Restart VS Code after installing so PATH updates apply.
+
+## Simple UI (Streamlit)
+
+If you prefer a small web UI (instead of the terminal), run:
+
+```powershell
+cd "e:\Coding\Meeting Intelligence Tool"
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+streamlit run app.py
+```
 
 ## Email action items from the Google Sheet (recommended)
 
