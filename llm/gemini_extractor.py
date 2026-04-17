@@ -13,44 +13,60 @@ import google.generativeai as genai
 
 
 STRICT_JSON_PROMPT_TEMPLATE = """
-You are a meeting intelligence assistant.
+You are an AI assistant that extracts structured information from meeting transcripts.
 
-From the given transcript, extract:
+The input transcript may be in any language (including Hindi) or mixed languages (Hinglish).
 
-1. Summary (max 5 lines)
-2. Action Items:
+Your tasks:
+1) Understand the content.
+2) Extract structured data:
+     - summary (max 5 lines)
+     - action_items: each item has task, owner, deadline, priority
+     - decisions
+     - open_questions
+3) Translate ALL output content into English.
 
-   * task
-   * owner
-   * deadline
-   * priority (High/Medium/Low)
-3. Key Decisions
-4. Open Questions
+IMPORTANT:
+- Output MUST be valid JSON only. Do not include markdown, code fences, or extra text.
+- Do NOT return any Hindi (or non-English) text in the output.
+- Keep people/team names as-is (do not translate names).
 
 Rules:
+- If owner not mentioned, use "Unassigned".
+- If deadline not mentioned, use "None".
+- Priority must be one of: High, Medium, Low.
+- Infer priority from cues like urgent, ASAP, immediately, critical.
 
-* If owner not mentioned, use "Unassigned"
-* If deadline not mentioned, use "None"
-* Infer priority from words like urgent, ASAP
-* Return ONLY valid JSON
+Optional (if you can confidently infer from the transcript):
+- Include detected_language with value "Hindi" or "English".
 
-Format:
+Return JSON in this format:
 {
-"summary": "...",
-"action_items": [
-{
-"task": "...",
-"owner": "...",
-"deadline": "...",
-"priority": "..."
-}
-],
-"decisions": [],
-"open_questions": []
+    "detected_language": "English",
+    "summary": "...",
+    "action_items": [
+        {
+            "task": "...",
+            "owner": "...",
+            "deadline": "...",
+            "priority": "..."
+        }
+    ],
+    "decisions": ["..."],
+    "open_questions": ["..."]
 }
 
 Transcript:
 """
+
+# Manual test cases (copy/paste into: main.py --text "..." )
+# 1) Hindi:
+#    "दाविद शुक्रवार तक बग ठीक करेगा। ग्रेग UI पर काम करेगा। हमने लॉन्च को अगले हफ्ते तक टालने का फैसला किया।"
+#    Expected: English-only JSON (no Hindi characters) with tasks for David/Greg and decision about delaying launch.
+#
+# 2) Hinglish:
+#    "Kal tak bug fix karna hai. David owner hai. UI Greg karega. Decision: launch next week. Question: testing kab?"
+#    Expected: English-only JSON with normalized fields.
 
 
 def list_models() -> list[str]:

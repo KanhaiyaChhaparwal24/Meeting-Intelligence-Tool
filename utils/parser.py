@@ -219,8 +219,20 @@ def normalize_meeting_json(data: Dict[str, Any]) -> Tuple[Dict[str, Any], List[s
         open_questions = []
     normalized["open_questions"] = [str(x).strip() for x in open_questions if str(x).strip()]
 
+    # Optional: keep a simple detected_language field if present.
+    detected_language = data.get("detected_language")
+    if detected_language is not None:
+        if isinstance(detected_language, str):
+            value = detected_language.strip()
+            if value in {"Hindi", "English"}:
+                normalized["detected_language"] = value
+            else:
+                warnings.append("detected_language had unexpected value; ignored")
+        else:
+            warnings.append("detected_language was not a string; ignored")
+
     # Detect unexpected keys (useful in debug)
-    expected = {"summary", "action_items", "decisions", "open_questions"}
+    expected = {"summary", "action_items", "decisions", "open_questions", "detected_language"}
     extra_keys = sorted([k for k in data.keys() if k not in expected])
     if extra_keys:
         warnings.append(f"extra keys present: {', '.join(extra_keys)}")

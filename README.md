@@ -14,6 +14,7 @@ Turn meeting **text or audio** into:
 
 - You paste a meeting transcript (or give an audio file).
 - The tool extracts the useful parts.
+- Input can be English, Hindi, or mixed Hinglish — the saved output is always in English.
 - It appends the results to your Google Sheet: **Meeting Intelligence → Logs**.
 - Optional: you can email action items to owners **from inside the sheet** using a checkbox + a confirmation prompt.
 
