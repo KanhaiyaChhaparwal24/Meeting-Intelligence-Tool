@@ -39,7 +39,9 @@ Rules:
     - If a task involves multiple people, choose the primary owner (who is asked to do it or who commits to doing it).
     - Mention any other participants inside the task text (e.g., "Schedule prep call with Sanya and Priya").
 - If owner not mentioned, use "Unassigned".
-- If deadline not mentioned, use "None".
+- If deadline is not explicitly mentioned, use "None".
+- Do NOT invent or guess deadlines.
+    - Keep deadline wording as close as possible to what was said (including time), e.g., "Today by noon", "End of today", "Thursday afternoon", "Within 3 weeks".
 - Priority must be one of: High, Medium, Low.
 - Infer priority from cues like urgent, ASAP, immediately, critical.
 
@@ -49,6 +51,7 @@ Action item extraction guidelines:
 - Do NOT miss tasks that are phrased as shipping/documenting/follow-ups.
     Examples: "Ship the current version", "Document the gap", "Improve it iteratively".
 - Prefer atomic tasks: split combined statements into separate action items when it improves clarity.
+  - If a sentence includes multiple deliverables joined by "and" (ship + document + follow up), split them.
 - When possible, add a short reason inside the task (one short clause), e.g.:
     "Implement feature flag to hide banner slot when asset isn't published (prevents placeholder slot)".
 

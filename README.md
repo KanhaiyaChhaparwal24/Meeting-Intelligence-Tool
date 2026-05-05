@@ -32,6 +32,8 @@ Then it automatically saves everything into **Google Sheets**, so your team can 
 
 Works with English, Hindi, and mixed Hinglish input — the saved output is always **English**.
 
+It’s designed for multi-person meetings too: one clear owner per task, and combined follow-ups (like “ship + document”) are captured as separate action items.
+
 ---
 
 ## Run it
@@ -41,7 +43,7 @@ Works with English, Hindi, and mixed Hinglish input — the saved output is alwa
 **Install once** (Windows PowerShell):
 
 ```powershell
-cd "\Meeting Intelligence Tool"
+cd "E:\Coding\Meeting Intelligence Tool"
 
 python -m venv .venv
 \.\.venv\Scripts\Activate.ps1
@@ -90,9 +92,9 @@ In `Team Directory`, keep headers exactly:
 Name | Email
 ```
 
-In `Logs` , headers must be like:
+In `Logs`, headers must be like:
 
-```test
+```text
 Timestamp | Meeting_ID | Summary | Task | Owner | Deadline | Priority | Decision | Open Question
 ```
 
