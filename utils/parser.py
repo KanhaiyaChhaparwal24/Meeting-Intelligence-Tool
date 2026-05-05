@@ -155,6 +155,32 @@ def _improve_priority(task: str, deadline: str, current_priority: str) -> str:
     return suggested if _priority_rank(suggested) > _priority_rank(current) else current
 
 
+def _normalize_owner(owner: Any) -> Tuple[str, Optional[str]]:
+    """Normalize owner to a single primary name.
+
+    Returns (primary_owner, note). If note is present, it can be surfaced as a warning.
+    """
+    raw = str(owner or "").strip()
+    if not raw:
+        return "Unassigned", None
+
+    if raw.lower() == "unassigned":
+        return "Unassigned", None
+
+    # If the model outputs multiple owners (e.g., "Arjun, Sanya, Priya" or "Arjun and Priya"),
+    # pick a single primary owner for logging/email workflows.
+    parts = re.split(r"\s*(?:,|&|\band\b)\s*", raw, flags=re.IGNORECASE)
+    parts = [p.strip() for p in parts if p and p.strip()]
+    if not parts:
+        return "Unassigned", None
+
+    primary = parts[0]
+    if len(parts) > 1:
+        return primary, f"owner had multiple names ({raw}); using primary owner '{primary}'"
+
+    return primary, None
+
+
 def normalize_meeting_json(data: Dict[str, Any]) -> Tuple[Dict[str, Any], List[str]]:
     """Normalize expected meeting JSON shape.
 
@@ -182,8 +208,12 @@ def normalize_meeting_json(data: Dict[str, Any]) -> Tuple[Dict[str, Any], List[s
         task = str(item.get("task", "")).strip()
         if not task:
             warnings.append(f"action_items[{idx}].task was empty")
+            continue
 
-        owner = str(item.get("owner", "Unassigned")).strip() or "Unassigned"
+        owner, owner_note = _normalize_owner(item.get("owner", "Unassigned"))
+        if owner_note:
+            warnings.append(f"action_items[{idx}].owner: {owner_note}")
+
         deadline_raw = str(item.get("deadline", "None")).strip() or "None"
         deadline = _normalize_deadline(deadline_raw)
 
